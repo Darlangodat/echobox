@@ -1,15 +1,18 @@
-//#include <Narcoleptic.h>
+#include <Narcoleptic.h>
 
 #define trigPin 12
 #define echoPin 11
 #define motorpino 10
 #define vibraCall(a)((300-a))/2
-
 void setup() {
   Serial.begin (9600);
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
   pinMode (motorpino,OUTPUT);
+  analogWrite(motorpino, 150);
+  delay(500);
+  analogWrite(motorpino, 0);
+  delay(500);
 }
 void loop() {
   int distancia = ultrassonic();
@@ -23,7 +26,6 @@ void loop() {
     analogWrite(motorpino, 0);
     //Narcoleptic.delay(50);
   }
-  
 }
 float ultrassonic(){
   digitalWrite(trigPin, LOW);  //seta o pino 12 com um pulso baixo "LOW" ou desligado ou ainda 0

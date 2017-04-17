@@ -1,0 +1,21 @@
+Movido o Loop pra dentro do Setup, pois o loop ele fica checando constantemente se o serial está disponível, e não queremos isso, então troquei por uma função while(true);
+
+Comentado a linha Serial.begin, para só utilizar quando for realmente necessário, por exemplo, ler os textos do monitor.
+
+Retirado o digitalWrite LOW do trigPin no ultrasonic, pois por padrão ele já vem desabilitado.
+
+Retirado o pinMode do echoPin, pois por padrão ele já é de entrada.
+
+Retirado algumas funções não utilizadas do arduino para mais desempenho, se quiser ler a função de cada uma, recomendo buscar no google e ler, pois perdi o site.
+
+Adicionado a biblioteca para dar a possibilidade de habilitar e desabilitar as funções do arduino.
+
+Trocado o distancia para o setup, para ser criada a varíavel apenas uma vez e não várias.
+
+Trocado de int para byte, para ler valores apenas de 0 a 255. Não precisava ser inteiro onde reconhece 65 mil números.
+
+Criado uma váriavel da distancia anterior para ser equiparada com a atual.
+
+PRECISA SER TESTADO NO VIBRACALL
+Adicionada um if para caso a distancia for igual a anterior, ele não precisar realizar o cálculo
+

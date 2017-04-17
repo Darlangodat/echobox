@@ -7,10 +7,9 @@
 
 void setup() {
   power_spi_disable();  
-  power_twi_disable(); 
-  power_timer1_disable();
+  power_twi_disable();
   power_timer2_disable(); 
-  byte distancia;
+  byte distancia, distanciaAnterior;
   pinMode(trigPin, OUTPUT);
   pinMode (motorpino,OUTPUT);
   analogWrite(motorpino, 150);
@@ -21,13 +20,16 @@ void setup() {
 
   while(true){
       distancia = ultrassonic();
-      if(200 > distancia > 0){
-         //Serial.print("A distancia em CM: ");
-         //Serial.println(distancia);
-         //Serial.println(vibraCall(distancia));
-         analogWrite(motorpino, vibraCall(distancia));
-      }else{
-         analogWrite(motorpino, 0);
+      if(distancia != distanciaAnterior){
+          if(200 > distancia > 0){
+             //Serial.print("A distancia em CM: ");
+             //Serial.println(distancia);
+             //Serial.println(vibraCall(distancia));
+             analogWrite(motorpino, vibraCall(distancia));
+             distanciaAnterior = distancia;
+          }else{
+             analogWrite(motorpino, 0);
+          }
       }
   }
 }

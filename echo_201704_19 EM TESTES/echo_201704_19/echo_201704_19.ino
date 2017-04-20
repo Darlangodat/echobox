@@ -3,7 +3,7 @@
 
 #define trigPin 12
 #define echoPin 11
-#define motorpino 10
+#define motorpino A10
 #define botao 9
 #define vibraCall(a)((300-a))/2
 
@@ -12,7 +12,7 @@ void setup() {
   power_twi_disable();
   power_timer2_disable(); 
   byte distancia, distanciaAnterior;
-  unsigned long tempo;
+  unsigned int tempo;
   bool desligado = true;
   pinMode(trigPin, OUTPUT);
   pinMode(motorpino,OUTPUT);
@@ -44,7 +44,9 @@ void setup() {
           }
       }else{
           //Serial.println(millis() - tempo);
-          if( (millis() - tempo) > 2000 ){
+          if( millis() - tempo) > 3000 ) {
+            Narcoleptic.delay(500);
+          }else if( (millis() - tempo) > 2000 ){
             analogWrite(motorpino, 0);
           }
       }
@@ -55,7 +57,7 @@ void setup() {
   }
 }
 
-float ultrassonic(){
+byte ultrassonic(){
   digitalWrite(trigPin, HIGH); //seta o pino 12 com pulso alto "HIGH" ou ligado ou ainda 1
   delayMicroseconds(10);  //delay de 10 microssegundos
   digitalWrite(trigPin, LOW); //seta o pino 12 com pulso baixo novamente

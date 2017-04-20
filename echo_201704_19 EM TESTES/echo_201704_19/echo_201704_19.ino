@@ -3,7 +3,7 @@
 
 #define trigPin 12
 #define echoPin 11
-#define motorpino A10
+#define motorpino 10
 #define botao 9
 #define vibraCall(a)((300-a))/2
 
@@ -44,9 +44,9 @@ void setup() {
           }
       }else{
           //Serial.println(millis() - tempo);
-          if( millis() - tempo) > 3000 ) {
+          if( millis() - tempo > 3000 ) {
             Narcoleptic.delay(500);
-          }else if( (millis() - tempo) > 2000 ){
+          }else if( millis() - tempo > 2000 ){
             analogWrite(motorpino, 0);
           }
       }

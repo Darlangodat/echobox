@@ -1,9 +1,11 @@
-#include <Narcoleptic.h>
+#include <NewPing.h>
 #include <avr/power.h>
+#include <Narcoleptic.h>
 
 #define trigPin 12
 #define echoPin 11
 #define motorpino 10
+#define distanciaMax 200
 #define botao 9
 #define vibraCall(a)((300-a))/2
 
@@ -14,13 +16,13 @@ void setup() {
   byte distancia, distanciaAnterior;
   unsigned long tempo;
   bool desligado = true;
-  pinMode(trigPin, OUTPUT);
-  pinMode(motorpino,OUTPUT);
+  DDRB = B00010100;
   pinMode(botao,INPUT_PULLUP);
   //Serial.begin (9600);
+  NewPing sensor(trigPin, echoPin, distanciaMax);
 
   while(true){
-    if(digitalRead(9) ){
+    if( (PINB & (1 << PINB1)) ){
       if(desligado){
         analogWrite(motorpino, 150);
         delay(500);
@@ -28,14 +30,16 @@ void setup() {
         delay(500);
         desligado = false;
       }
-      distancia = ultrassonic();
+      distancia = sensor.convert_cm(sensor.ping_median(2));
+
+      //Serial.print("Distancia em CM: ");
+      //Serial.println(distancia);
+      //Serial.print("Distancia Anterior: ");
+      //Serial.println(distanciaAnterior);
+      //delay(500);
       
-      if( !(distanciaAnterior*1.06 >= distancia && distanciaAnterior*0.94 <= distancia) ){
-          if(200 > distancia > 0){
-             //Serial.print("A distancia em CM: ");
-             //Serial.println(distancia);
-             //delay(500);
-             //Serial.println(vibraCall(distancia));
+      if( !(distanciaAnterior*1.05 >= distancia && distanciaAnterior*0.95 <= distancia) ){
+          if(distancia > 0){
              analogWrite(motorpino, vibraCall(distancia));
              distanciaAnterior = distancia;
              tempo = millis();
@@ -43,6 +47,7 @@ void setup() {
              analogWrite(motorpino, 0);
           }
       }else{
+          //Serial.print("Tempo: ");
           //Serial.println(millis() - tempo);
           if( millis() - tempo > 3000 ){
             Narcoleptic.delay(500);
@@ -55,13 +60,4 @@ void setup() {
       Narcoleptic.delay(500);
     }
   }
-}
-
-byte ultrassonic(){
-  digitalWrite(trigPin, HIGH); //seta o pino 12 com pulso alto "HIGH" ou ligado ou ainda 1
-  delayMicroseconds(10);  //delay de 10 microssegundos
-  digitalWrite(trigPin, LOW); //seta o pino 12 com pulso baixo novamente
-  
-  //pulseIn lê o tempo entre a chamada e o pino entrar em high
-  return pulseIn(echoPin, HIGH)/58.2;
 }

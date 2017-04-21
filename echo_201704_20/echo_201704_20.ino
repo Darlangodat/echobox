@@ -28,7 +28,7 @@ void setup() {
       }
       distancia = ultrassonic();
       
-      if( !(distanciaAnterior*1.06 >= distancia && distanciaAnterior*0.94 <= distancia) ){
+      if( !(distanciaAnterior*1.1 >= distancia && distanciaAnterior*0.9 <= distancia) ){
           if(200 > distancia > 0){
              //Serial.print("A distancia em CM: ");
              //Serial.println(distancia);
@@ -41,7 +41,7 @@ void setup() {
              analogWrite(motorpino, 0);
           }
       }else{
-          //Serial.println(millis() - tempo);
+          Serial.println(millis() - tempo);
           if( millis() - tempo > 3000 ){
             Narcoleptic.delay(500);
           }else if( millis() - tempo > 2000 ){
@@ -50,7 +50,7 @@ void setup() {
       }
     }else{
       desligado = true;
-      Narcoleptic.delay(500);
+      Narcoleptic.delay(1000);
     }
   }
 }

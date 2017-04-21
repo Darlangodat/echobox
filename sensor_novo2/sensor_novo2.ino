@@ -30,15 +30,15 @@ void setup() {
         delay(500);
         desligado = false;
       }
-      distancia = sensor.convert_cm(sensor.ping_median(2));
+      delayMicroseconds(10);
+      distancia = sensor.convert_cm(sensor.ping_median(3));
 
       //Serial.print("Distancia em CM: ");
       //Serial.println(distancia);
       //Serial.print("Distancia Anterior: ");
       //Serial.println(distanciaAnterior);
-      //delay(500);
       
-      if( !(distanciaAnterior*1.05 >= distancia && distanciaAnterior*0.95 <= distancia) ){
+      if( !(distanciaAnterior*1.10 >= distancia && distanciaAnterior*0.9 <= distancia) ){
           if(distancia > 0){
              analogWrite(motorpino, vibraCall(distancia));
              distanciaAnterior = distancia;
@@ -57,7 +57,7 @@ void setup() {
       }
     }else{
       desligado = true;
-      Narcoleptic.delay(500);
+      Narcoleptic.delay(1000);
     }
   }
 }
